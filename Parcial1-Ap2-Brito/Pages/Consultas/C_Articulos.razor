@@ -1,0 +1,135 @@
+﻿@page "/Consulta"
+
+@using BLL
+@using Models
+
+
+<div class="card">
+    <div class="card-header text-lg-center">
+        <h2 style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Consulta</h2>
+    </div>
+
+    <div class="card-body">
+
+        <div class="form-group nav">
+
+            <select @bind="opcion" class="col-4">
+                <option value="0">Todos</option>
+                <option value="1">Id</option>
+                <option value="2">Descripción</option>
+                <option value="3">Existencia</option>
+                <option value="4">Costo</option>
+            </select>
+
+            <div class="input-group col-6">
+                <input type="text" @bind="criterio" placeholder="Criterio" />
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar" >Buscar</button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Descripción</th>
+                        <th>Existencia</th>
+                        <th>Costo</th>
+                        <th>Valor Inventario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var auxiliar in listaArticulos)
+                    {
+                        <tr>
+                            <td>@auxiliar.articuloId</td>
+                            <td>@auxiliar.descripcion</td>
+                            <td>@auxiliar.existencia</td>
+                            <td>@auxiliar.costo</td>
+                            <td>@auxiliar.valorInventario</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="card-footer">
+        <div class="form-inline">
+            <div class="form-group mb-2">
+                <label>Total valor inventario</label>
+            </div>
+
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="number" @bind="valorInventario" readOnly="" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code
+{
+    public string opcion { get; set; }
+    public string criterio { get; set; }
+    public double valorInventario { get; set; }
+
+    public List<Articulos> listaArticulos = new List<Articulos>();
+
+    protected override void OnInitialized()
+    {
+        listaArticulos = new List<Articulos>();
+    }
+
+
+    private void Buscar()
+    {
+
+        valorInventario = 0;
+        listaArticulos = new List<Articulos>();
+        int auxiliar = Convert.ToInt32(opcion);
+
+        switch (auxiliar)
+        {
+            case 0:
+                listaArticulos = ArticulosBLL.GetList(a => true);
+                break;
+
+            case 1:
+                int id = Convert.ToInt32(criterio);
+                listaArticulos = ArticulosBLL.GetList(a => a.articuloId == id);
+                break;
+
+            case 2:
+                listaArticulos = ArticulosBLL.GetList(a => a.descripcion.Contains(criterio));
+                break;
+
+            case 3:
+                int existencia = Convert.ToInt32(criterio);
+                listaArticulos = ArticulosBLL.GetList(a => a.existencia == existencia);
+                break;
+
+            case 4:
+                double costo = Convert.ToDouble(criterio);
+                listaArticulos = ArticulosBLL.GetList(a => a.costo == costo);
+                break;
+        }
+
+
+        TotalValorInventario();
+    }
+
+    private void TotalValorInventario()
+    {
+        foreach (var temporal in listaArticulos)
+        {
+            valorInventario += temporal.valorInventario;
+        }
+    }
+}

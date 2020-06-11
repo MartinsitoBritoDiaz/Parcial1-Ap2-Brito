@@ -46,6 +46,7 @@ namespace Parcial1_Ap2_Brito.BLL
             bool paso = false;
             Contexto contexto = new Contexto();
 
+            
             try
             {
                 contexto.Articulo.Add(articulo);
@@ -59,6 +60,8 @@ namespace Parcial1_Ap2_Brito.BLL
             {
                 contexto.Dispose();
             }
+            
+            
 
             return paso;
         }

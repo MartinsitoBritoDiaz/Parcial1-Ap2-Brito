@@ -89,10 +89,11 @@ namespace Parcial1_Ap2_Brito.BLL
         {
             bool paso = false;
             Contexto contexto = new Contexto();
+            Articulos articulo;
 
             try
             {
-                var articulo = contexto.Articulo.Find(id);
+                articulo = contexto.Articulo.Find(id);
 
                 if(articulo != null)
                 {
@@ -145,6 +146,10 @@ namespace Parcial1_Ap2_Brito.BLL
             catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                contexto.Dispose();
             }
 
             return listaArticulos;

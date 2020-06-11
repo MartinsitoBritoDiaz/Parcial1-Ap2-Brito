@@ -49,6 +49,11 @@ namespace Parcial1_Ap2_Brito.BLL
             
             try
             {
+                if(articulo.valorInventario == 0)
+                {
+                    articulo.valorInventario = (articulo.costo * articulo.existencia);
+                }
+
                 contexto.Articulo.Add(articulo);
                 paso = (contexto.SaveChanges() > 0);
             }
@@ -61,8 +66,6 @@ namespace Parcial1_Ap2_Brito.BLL
                 contexto.Dispose();
             }
             
-            
-
             return paso;
         }
 
@@ -73,6 +76,11 @@ namespace Parcial1_Ap2_Brito.BLL
 
             try
             {
+                if (articulo.valorInventario == 0)
+                {
+                    articulo.valorInventario = (articulo.costo * articulo.existencia);
+                }
+
                 contexto.Entry(articulo).State = EntityState.Modified;
                 paso = (contexto.SaveChanges() > 0);
             }

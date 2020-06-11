@@ -8,7 +8,7 @@ using Parcial1_Ap2_Brito.DAL;
 namespace Parcial1_Ap2_Brito.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200611003110_Migracion")]
+    [Migration("20200611040342_Migracion")]
     partial class Migracion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

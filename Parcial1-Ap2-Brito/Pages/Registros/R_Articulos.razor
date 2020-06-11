@@ -104,18 +104,25 @@
 
     private void Guardar()
     {
+
         bool guardo = false;
 
-        guardo = ArticulosBLL.Guardar(Articulo);
-
-        if (guardo)
+        if (Articulo.articuloId >= 0)
         {
-            Nuevo();
-            toast.ShowSuccess("Guardado exitosamente");
+            guardo = ArticulosBLL.Guardar(Articulo);
+
+            if (guardo)
+            {
+                Nuevo();
+                toast.ShowSuccess("Guardado exitosamente");
+            }
+            else
+                toast.ShowError("No fue posible guardar");
         }
         else
             toast.ShowError("No fue posible guardar");
     }
+
 
     private void Eliminar()
     {
